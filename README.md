@@ -2,7 +2,7 @@
 
 Unofficial Implementation of MLP-Mixer [[`abs`](https://arxiv.org/abs/2105.01601), [`pdf`](https://arxiv.org/pdf/2105.01601.pdf)] in TensorFlow.
 
-<img src="model.png" align="center" width=600>
+<img src="model.png" align="center">
 
 > Note: This project may have some bugs in it. I'm still learning how to implement papers from scratch. Any help appreciated :D
 
