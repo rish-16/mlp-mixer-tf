@@ -4,15 +4,19 @@ Unofficial Implementation of MLP-Mixer [[`abs`](https://arxiv.org/abs/2105.01601
 
 > Note: This project may have some bugs in it. I'm still learning how to implement papers from scratch. Any help appreciated :D
 
-## Installation
+## Installation and Usage
 
-You can install `mlp-mixer-tf` from `pip`:
+The package uses purely TensorFlow. Make sure you have version `2.X`:
 
 ```bash
-pip install mlp-mixer-tf
+pip install tensorflow
 ```
 
-## Usage
+```bash
+git clone https://github.com/rish-16/mlp-mixer-tf.git
+cd mlp-mixer-tf
+python main.py
+```
 
 The unofficial wrapper style is inspired by [Phil Wang's](https://github.com/lucidrains) work on Transformers and Attention (big fan!).
 
