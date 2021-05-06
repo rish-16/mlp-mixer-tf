@@ -1,17 +1,17 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, LayerNormalization, GlobalAveragePooling1D
-from mlp_mixer.utils import MixerLayer, Forward, MLP
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Layer, Dense, LayerNormalization, GlobalAveragePooling2D
+from mlp_mixer.utils import MixerLayer, MLP
 
-class MLPMixer(Layer):
+class MLPMixer(Model):
     def __init__(self, n_classes, depth, patch_size, image_size=256, n_channels=3, dim=512):
         super().__init__()
-        self.pp_fc = Dense(dim) # hidden dimension C
+        self.pp_fc = Dense(image_size) # hidden dimension C
         self.n_classes = n_classes
         self.n_channels = n_channels
 
-        self.n_patches = image_size**2 / patch_size**2
-
-        assert isinstance(self.n_patches, int), "Image size must be broken down into integer number of patches."
+        assert (image_size % patch_size) == 0, "Image size must be broken down into integer number of patches."
+        self.n_patches = (image_size**2 / patch_size**2)
 
         self.mixer_layers = []
         for _ in range(depth):
@@ -19,7 +19,7 @@ class MLPMixer(Layer):
                 MixerLayer(dim)
             )
         
-        self.gap = GlobalAveragePooling1D()
+        self.gap = GlobalAveragePooling2D()
         self.head = Dense(n_classes, activation="softmax")
 
     def call(self, x):
@@ -30,6 +30,7 @@ class MLPMixer(Layer):
             x = layer(x)
 
         x = LayerNormalization()(x)
+        x = tf.expand_dims(x, axis=0)
         x = self.gap(x)
         out = self.head(x)
 
