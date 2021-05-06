@@ -4,9 +4,9 @@ from tensorflow.keras.layers import Layer, Dense, LayerNormalization, GlobalAver
 from mlp_mixer.utils import MixerLayer, MLP
 
 class MLPMixer(Model):
-    def __init__(self, n_classes, depth, patch_size, image_size=256, n_channels=3, dim=512):
+    def __init__(self, n_classes, depth, patch_size, image_size=256, n_channels=3, hdim=512):
         super().__init__()
-        self.pp_fc = Dense(image_size) # hidden dimension C
+        self.pp_fc = Dense(image_size)
         self.n_classes = n_classes
         self.n_channels = n_channels
 
@@ -16,7 +16,7 @@ class MLPMixer(Model):
         self.mixer_layers = []
         for _ in range(depth):
             self.mixer_layers.append(
-                MixerLayer(dim)
+                MixerLayer(hdim)
             )
         
         self.gap = GlobalAveragePooling2D()
